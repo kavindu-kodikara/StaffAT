@@ -29,7 +29,10 @@ The database file (`attendance.db`) will be automatically generated inside that 
 Once installed correctly, launch PeopleHub from your desktop shortcut or the Windows Start menu.
 
 ### 1. Initial Setup
-Upon opening the application for the first time, you will be greeted with the Login Screen. Enter your administrative credentials to access the Command Center (Dashboard). *(If this is your first time, check the release notes for default credentials if applicable, or set up your admin account).*
+Upon opening the application for the first time, you will be greeted with the Login Screen. Enter your administrative credentials to access the Command Center (Dashboard).
+
+**Default Admin Credentials:**
+- **Password:** `admin`
 
 ### 2. Dashboard Overview
 The Command Center gives you a high-level view of:

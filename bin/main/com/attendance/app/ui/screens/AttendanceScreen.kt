@@ -134,6 +134,21 @@ fun AttendanceScreen() {
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 SecondaryButton(text = "Go to Today", onClick = { selectedDate = LocalDate.now() })
+                Spacer(modifier = Modifier.width(16.dp))
+                var isSyncing by remember { mutableStateOf(false) }
+                PrimaryButton(
+                    text = if (isSyncing) "Syncing..." else "Sync from Supabase", 
+                    onClick = {
+                        scope.launch {
+                            isSyncing = true
+                            com.attendance.app.data.AttendanceSyncService().syncFromSupabase(selectedDate, selectedDate)
+                            loadData()
+                            isSyncing = false
+                        }
+                    },
+                    enabled = !isSyncing,
+                    icon = if (isSyncing) null else Icons.Default.Sync
+                )
             }
         }
         

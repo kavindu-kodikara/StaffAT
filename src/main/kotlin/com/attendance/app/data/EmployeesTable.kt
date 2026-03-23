@@ -12,6 +12,9 @@ object EmployeesTable : IntIdTable("employees") {
     val address = text("address").nullable()
     val googleSheetLink = varchar("google_sheet_link", 1024).nullable()
     val internalComment = text("internal_comment").nullable()
+    val employeeCode = varchar("employee_code", 50).nullable().uniqueIndex()
+    val username = varchar("username", 255).nullable()
+    val password = varchar("password", 255).nullable()
     val onboardingStatus = varchar("onboarding_status", 50) // "signed_in_office", "pending_office_signing"
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
     val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }

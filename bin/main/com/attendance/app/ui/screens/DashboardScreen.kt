@@ -86,7 +86,7 @@ fun DashboardScreen(navigationState: NavigationState) {
         ) {
             Column {
                 Text(
-                    "Command Center",
+                    "Staff AT Dashboard",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground

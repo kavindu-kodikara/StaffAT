@@ -1,21 +1,24 @@
 package com.attendance.app.data
 
+import com.attendance.app.data.AttendanceTable
+import com.attendance.app.data.EmployeesTable
+import com.attendance.app.data.SupabaseSyncTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.io.File
+import java.sql.Connection
 
 object DatabaseFactory {
     fun init() {
-        // Use a local SQLite database file in the project directory for development
-        // For production, this could be configured to an AppData directory
-        val dbFile = File("attendance.db")
-        val url = "jdbc:sqlite:${dbFile.absolutePath}"
-        
-        Database.connect(url, "org.sqlite.JDBC")
-        
+        val driverClassName = "org.sqlite.JDBC"
+        val jdbcUrl = "jdbc:sqlite:attendance.db"
+        Database.connect(jdbcUrl, driverClassName, setupConnection = { connection: Connection ->
+            connection.prepareStatement("PRAGMA foreign_keys = ON;").execute()
+        })
+
         transaction {
-            SchemaUtils.create(EmployeesTable, AttendanceTable)
+            SchemaUtils.create(EmployeesTable, AttendanceTable, SupabaseSyncTable)
+            SchemaUtils.createMissingTablesAndColumns(EmployeesTable, AttendanceTable, SupabaseSyncTable)
         }
     }
 }

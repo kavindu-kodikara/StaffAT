@@ -6,6 +6,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +28,8 @@ fun EmployeesScreen(navigationState: NavigationState) {
     var employees by remember { mutableStateOf<List<Employee>>(emptyList()) }
     var showDialog by remember { mutableStateOf(false) }
     var employeeToEdit by remember { mutableStateOf<Employee?>(null) }
+    var isSaving by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     fun loadEmployees() {
         scope.launch {
@@ -37,19 +41,19 @@ fun EmployeesScreen(navigationState: NavigationState) {
         loadEmployees()
     }
 
-    if (showDialog) {
+    if (showDialog && employeeToEdit != null) {
         EmployeeFormDialog(
-            employeeToEdit = employeeToEdit,
-            onDismiss = { showDialog = false },
+            employeeToEdit = employeeToEdit!!,
+            isLoading = isSaving,
+            onDismiss = { if (!isSaving) showDialog = false },
             onSave = { emp ->
                 scope.launch {
-                    if (emp.id == 0) {
-                        repository.addEmployee(emp)
-                    } else {
-                        repository.updateEmployee(emp)
-                    }
+                    isSaving = true
+                    // Update local-only fields
+                    repository.updateEmployee(emp)
                     loadEmployees()
                     showDialog = false
+                    isSaving = false
                 }
             }
         )
@@ -62,7 +66,10 @@ fun EmployeesScreen(navigationState: NavigationState) {
         else employees.filter { it.onboardingStatus == onboardingFilter }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(32.dp)) {
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { paddingValues ->
+        Column(modifier = Modifier.fillMaxSize().padding(paddingValues).padding(32.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -70,25 +77,37 @@ fun EmployeesScreen(navigationState: NavigationState) {
         ) {
             Column {
                 Text(
-                    "Employees Directory",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground
+                    text = "Employee Directory",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "Manage your team and onboarding progress",
+                    text = "Manage your team and onboarding tracking",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
-            PrimaryButton(
-                text = "Add New Employee",
-                onClick = { 
-                    employeeToEdit = null
-                    showDialog = true 
-                }
-            )
+            Row {
+                PrimaryButton(
+                    text = "Sync from Supabase",
+                    onClick = {
+                        scope.launch {
+                            isSaving = true
+                            repository.syncEmployeesFromSupabase()
+                                .onSuccess {
+                                    snackbarHostState.showSnackbar("Employees synced successfully!")
+                                    loadEmployees()
+                                }
+                                .onFailure {
+                                    snackbarHostState.showSnackbar("Sync failed: ${it.message}")
+                                }
+                            isSaving = false
+                        }
+                    },
+                    icon = Icons.Default.Refresh,
+                    enabled = !isSaving
+                )
+            }
         }
         
         Spacer(modifier = Modifier.height(24.dp))
@@ -189,4 +208,4 @@ fun EmployeesScreen(navigationState: NavigationState) {
             )
         )
     }
-}
+}}

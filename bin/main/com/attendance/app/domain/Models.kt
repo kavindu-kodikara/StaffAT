@@ -12,6 +12,9 @@ data class Employee(
     val address: String? = null,
     val googleSheetLink: String? = null,
     val internalComment: String? = null,
+    val employeeCode: String? = null,
+    val username: String? = null,
+    val password: String? = null,
     val onboardingStatus: String = "pending_office_signing",
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now()
@@ -31,7 +34,8 @@ data class AttendanceRecord(
 enum class AttendanceStatus(val value: String) {
     PRESENT("Present"),
     ABSENT("Absent"),
-    LEAVE("Leave")
+    LEAVE("Leave"),
+    PENDING("Pending")
 }
 
 enum class OnboardingStatus(val value: String, val displayName: String) {

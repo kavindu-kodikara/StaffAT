@@ -2,10 +2,10 @@ package com.attendance.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF4F46E5) // Indigo 600
+val md_theme_light_primary = Color(0xFF0459CC) 
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFFEEF2FF) // Indigo 50
-val md_theme_light_onPrimaryContainer = Color(0xFF4F46E5)
+val md_theme_light_primaryContainer = Color(0xFFD7E2FF) 
+val md_theme_light_onPrimaryContainer = Color(0xFF001945)
 
 val md_theme_light_secondary = Color(0xFF0EA5E9) // Sky 500
 val md_theme_light_onSecondary = Color(0xFFFFFFFF)
@@ -27,10 +27,10 @@ val md_theme_light_outline = Color(0xFFE2E8F0) // Slate 200
 val md_theme_light_outlineVariant = Color(0xFFF1F5F9)
 
 // Dark Theme Colors
-val md_theme_dark_primary = Color(0xFF3B82F6) // Blue for primary actions
-val md_theme_dark_onPrimary = Color(0xFFFFFFFF)
-val md_theme_dark_primaryContainer = Color(0xFF1E3A8A)
-val md_theme_dark_onPrimaryContainer = Color(0xFFDBEAFE)
+val md_theme_dark_primary = Color(0xFFABC7FF) 
+val md_theme_dark_onPrimary = Color(0xFF002B73)
+val md_theme_dark_primaryContainer = Color(0xFF003F9D)
+val md_theme_dark_onPrimaryContainer = Color(0xFFD7E2FF)
 
 val md_theme_dark_secondary = Color(0xFF38BDF8) // Sky Blue
 val md_theme_dark_onSecondary = Color(0xFF0F172A)

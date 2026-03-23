@@ -77,7 +77,7 @@ fun ReportsScreen(navigationState: NavigationState) {
         ) {
             Column {
                 Text(
-                    "Attendance Reports",
+                    "Staff AT Reports",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground

@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm") version "1.9.23"
     id("org.jetbrains.compose") version "1.6.10"
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 group = "com.attendance"
@@ -21,19 +22,25 @@ dependencies {
     implementation(compose.ui)
     implementation(compose.foundation)
     implementation(compose.materialIconsExtended)
-    
+
     // SQLite JDBC
     implementation("org.xerial:sqlite-jdbc:3.45.2.0")
-    
+
     // Exposed ORM
     implementation("org.jetbrains.exposed:exposed-core:0.49.0")
     implementation("org.jetbrains.exposed:exposed-dao:0.49.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.49.0")
     implementation("org.jetbrains.exposed:exposed-java-time:0.49.0")
-    
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
+
+    // API & JSON
+    implementation("io.ktor:ktor-client-cio:2.3.10")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.10")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     
 }
 
@@ -46,7 +53,7 @@ compose.desktop {
 
 
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
-            packageName = "PeopleHub"
+            packageName = "Staff AT"
             packageVersion = "1.0.0"
             vendor = "Kavindu Kodikara"
             description = "Employee Attendance & Management Dashboard"
@@ -54,7 +61,7 @@ compose.desktop {
             windows {
                 iconFile.set(project.file("src/main/resources/icon.ico"))
                 shortcut = true
-                menuGroup = "PeopleHub"
+                menuGroup = "Staff AT"
             }
         }
     }

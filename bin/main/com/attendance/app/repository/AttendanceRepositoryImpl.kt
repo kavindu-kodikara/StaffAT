@@ -55,9 +55,10 @@ class AttendanceRepositoryImpl : AttendanceRepository {
     }
 
     override suspend fun getAttendanceSummary(startDate: LocalDate, endDate: LocalDate): List<AttendanceRecord> = newSuspendedTransaction {
-        AttendanceTable.select {
-            (AttendanceTable.date greaterEq startDate) and (AttendanceTable.date lessEq endDate)
-        }.map { it.toAttendanceRecord() }
+        (AttendanceTable innerJoin com.attendance.app.data.EmployeesTable)
+            .select {
+                (AttendanceTable.date greaterEq startDate) and (AttendanceTable.date lessEq endDate)
+            }.map { it.toAttendanceRecord() }
     }
 
     override suspend fun getStatusCountByDate(date: LocalDate, status: String): Long = newSuspendedTransaction {
@@ -66,7 +67,7 @@ class AttendanceRepositoryImpl : AttendanceRepository {
 
     override suspend fun getDailyTrend(days: Int): Map<LocalDate, Int> = newSuspendedTransaction {
         val startDate = LocalDate.now().minusDays(days.toLong())
-        AttendanceTable
+        (AttendanceTable innerJoin com.attendance.app.data.EmployeesTable)
             .slice(AttendanceTable.date, AttendanceTable.status.count())
             .select { (AttendanceTable.date greaterEq startDate) and (AttendanceTable.status eq "Present") }
             .groupBy(AttendanceTable.date)
@@ -75,7 +76,7 @@ class AttendanceRepositoryImpl : AttendanceRepository {
     }
 
     override suspend fun getStatusDistribution(startDate: LocalDate, endDate: LocalDate): Map<String, Int> = newSuspendedTransaction {
-        AttendanceTable
+        (AttendanceTable innerJoin com.attendance.app.data.EmployeesTable)
             .slice(AttendanceTable.status, AttendanceTable.status.count())
             .select { (AttendanceTable.date greaterEq startDate) and (AttendanceTable.date lessEq endDate) }
             .groupBy(AttendanceTable.status)

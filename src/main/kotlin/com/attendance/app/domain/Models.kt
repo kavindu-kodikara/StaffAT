@@ -69,3 +69,17 @@ data class EmployeeAttendanceStats(
     val attendanceRate: Double
 )
 
+data class StudentResponse(
+    val id: Int = 0,
+    val timestamp: String, // From Excel "Timestamp" column
+    val studentName: String,
+    val nic: String? = null,
+    val address: String? = null,
+    val whatsappNumber: String? = null,
+    val contactNumber: String? = null,
+    val databaseName: String? = null,
+    val counselorName: String,
+    val employeeId: Int? = null,
+    val importDate: LocalDate = LocalDate.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now()
+)

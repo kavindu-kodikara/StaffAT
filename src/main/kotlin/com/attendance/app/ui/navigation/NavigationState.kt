@@ -11,6 +11,7 @@ sealed class Screen(val title: String) {
     object EmployeeProfile : Screen("Employee Profile")
     object Attendance : Screen("Attendance")
     object Reports : Screen("Reports")
+    object StudentResponses : Screen("Student Responses")
     object Settings : Screen("System Settings")
 }
 

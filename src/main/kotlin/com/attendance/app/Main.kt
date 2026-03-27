@@ -71,6 +71,9 @@ fun main() = application {
                         is Screen.Reports -> ReportsScreen(
                             navigationState = navigationState
                         )
+                        is Screen.StudentResponses -> StudentResponsesScreen(
+                            navigationState = navigationState
+                        )
                         is Screen.Settings -> SettingsScreen(
                             navigationState = navigationState
                         )

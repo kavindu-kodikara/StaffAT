@@ -63,6 +63,9 @@ fun Sidebar(currentScreen: Screen, navigationState: NavigationState) {
             SidebarItem("Reports", Icons.Default.Assessment, currentScreen == Screen.Reports) {
                 navigationState.navigateTo(Screen.Reports)
             }
+            SidebarItem("Student Responses", Icons.Default.ContactPhone, currentScreen == Screen.StudentResponses) {
+                navigationState.navigateTo(Screen.StudentResponses)
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
